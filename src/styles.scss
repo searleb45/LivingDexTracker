@@ -1,7 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/typography';
+@import 'styles/buttons';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
 body {
-  background-color: #2ef77b;
-  background: linear-gradient(#2e8888, #2ef77b);
+  background-color: $bg-color-2;
+  background: linear-gradient($bg-color-1, $bg-color-2);
   background-repeat: no-repeat;
   min-height: 100vh;
+  margin: 0;
+}
+
+.main-content-area {
+  @include tablet {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  @include desktop {
+    max-width: 1150px;
+  }
 }
