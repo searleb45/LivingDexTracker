@@ -1,16 +1,3 @@
-<ul class="pokemon-list">
-  <li *ngFor="let pokemon of pkmnList">
-    {{pokemon.name}}
-  </li>
-</ul>
-
 <div class="pokemon-list">
-  <div *ngFor="let pokemon of pkmnList" class="pokemon pokemon-{{pokemon.nationalDexNum}}">
-    <a routerLink="/pkmn/{{pokemon.nationalDexNum}}">
-      <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemon.name.toLowerCase()}}.png">
-      <p>{{pokemon.name}}</p>
-      <p>{{pokemon.type1}}</p>
-      <p *ngIf="pokemon.type2">{{pokemon.type2}}</p>
-    </a>
-  </div>
+  <app-pkmn-list-item *ngFor="let pokemon of pkmnList" [pkmn]="pokemon"></app-pkmn-list-item>
 </div>
