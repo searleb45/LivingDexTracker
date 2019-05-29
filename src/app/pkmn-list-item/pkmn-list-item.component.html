@@ -6,6 +6,6 @@
     <p *ngIf="pokemonData.types[1]">{{pokemonData.types[1].type.name}}</p>
   </a>
 </div>
-<div *ngIf="!pokemonLoaded">
+<div *ngIf="!pokemonLoaded" class="loader-container">
   <app-pokeball-loader></app-pokeball-loader>
 </div>
