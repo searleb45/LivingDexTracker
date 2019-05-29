@@ -1,8 +1,11 @@
-<div class="pokemon">
-  <a routerLink="/pkmn/{{pkmn.nationalDexNum}}">
-    <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pkmn.name.toLowerCase()}}.png">
-    <p>{{pkmn.name}}</p>
-    <p>{{pkmn.type1}}</p>
-    <p *ngIf="pkmn.type2">{{pkmn.type2}}</p>
+<div *ngIf="pokemonLoaded" class="pokemon">
+  <a routerLink="/pkmn/{{pokemonData.name}}">
+    <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonData.name}}.png">
+    <p>{{ getPokemonName() }}</p>
+    <p>{{ pokemonData.types[0].type.name }}</p>
+    <p *ngIf="pokemonData.types[1]">{{pokemonData.types[1].type.name}}</p>
   </a>
+</div>
+<div *ngIf="!pokemonLoaded">
+  <app-pokeball-loader></app-pokeball-loader>
 </div>

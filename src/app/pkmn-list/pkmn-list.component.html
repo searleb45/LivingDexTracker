@@ -1,3 +1,4 @@
-<div class="pokemon-list">
-  <app-pkmn-list-item *ngFor="let pokemon of pkmnList" [pkmn]="pokemon"></app-pkmn-list-item>
+<div class="loading" *ngIf="!pkmnList || pkmnList.length === 0">Loading...</div>
+<div class="pokemon-list" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="200" (scrolled)="onScroll()">
+  <app-pkmn-list-item *ngFor="let pokemon of pkmnList" [pokemonName]="pokemon.name"></app-pkmn-list-item>
 </div>

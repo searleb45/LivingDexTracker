@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Pokemon } from '../pokemon';
+
+import { PkmnService } from '../pkmn.service';
 
 @Component({
   selector: 'app-pkmn-list-item',
@@ -7,12 +8,39 @@ import { Pokemon } from '../pokemon';
   styleUrls: ['./pkmn-list-item.component.scss']
 })
 export class PkmnListItemComponent implements OnInit {
-  @Input() pkmn: Pokemon;
+  @Input() pokemonName: string;
 
-  constructor() { }
+  private pokemonData: any;
+  private speciesData: any;
+  private pokemonLoaded: boolean = false;
+
+  constructor(private pokemonService: PkmnService) { }
 
   ngOnInit() {
-    console.log(this.pkmn);
+    // Retrieve Pokemon entry for each new Pokemon to display
+    this.pokemonService.getPokemon(this.pokemonName).subscribe(fullResponse => {
+      this.pokemonData = fullResponse;
+
+      // Retrieve Pokemon Species entry for each new Pokemon to display.
+      // Use AssetByUrl to avoid trying to retrieve a species that doesn't exist (for multiple forms/megas/regionals/etc)
+      this.pokemonService.getApiAssetByUrl(fullResponse.species.url).subscribe(speciesResponse => {
+        this.speciesData = speciesResponse;
+
+        // TODO Remove debug log
+        if(this.pokemonName==='bulbasaur') console.log(this.pokemonData, this.speciesData);
+
+        this.pokemonLoaded = true;
+      })
+    });
+  }
+
+  getPokemonName() {
+    if(this.speciesData) {
+      return this.speciesData.names.filter(name => name.language.name === 'en')[0].name;
+    } else if(this.pokemonData) {
+      return this.pokemonData.name;
+    }
+    return 'NAME NOT FOUND';
   }
 
 }

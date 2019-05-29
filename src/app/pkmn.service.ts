@@ -1,42 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Pokemon } from './pokemon';
+import { Observable, of, from } from 'rxjs';
 
-const POKEMON: Pokemon[] = [
-  {
-    name: "Bulbasaur",
-    nationalDexNum: 1,
-    type1: "Grass",
-    type2: "Poison"
-  },
-  {
-    name: "Charmander",
-    nationalDexNum: 4,
-    type1: "Fire"
-  },
-  {
-    name: "Squirtle",
-    nationalDexNum: 7,
-    type1: "Water"
-  },
-  {
-    name: "Pikachu",
-    nationalDexNum: 25,
-    type1: "Electric"
-  }
-];
+import { Pokedex } from 'pokeapi-js-wrapper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PkmnService {
 
-  constructor() { }
+  private pokeApi;
+  private pokemonPerPage: number = 32;
 
-  getPokemon(num: number): Pokemon | string {
-    return POKEMON[num] || `Pokemon ${num} not found in dataset`;
+  constructor() {
+    this.pokeApi = new Pokedex();
   }
 
-  getAllPokemon() {
-    return POKEMON;
+  getPokemonPage(pageNum: number) : Observable<any> {
+    return from(this.pokeApi.getPokemonsList({
+      limit: this.pokemonPerPage,
+      offset: pageNum * this.pokemonPerPage
+    }).then(res => res.results));
+  }
+
+  getPokemonSpecies(name: string): Observable<any> {
+    return from(this.pokeApi.getPokemonSpeciesByName(name));
+  }
+
+  getPokemon(name: string): Observable<any>  {
+    return from(this.pokeApi.getPokemonByName(name));
+  }
+
+  getApiAssetByUrl(url: string): Observable<any> {
+    return from(this.pokeApi.resource(url));
   }
 }
