@@ -1,11 +1,17 @@
 @import '../../styles/colors';
-
+.header-spacer {
+  margin-bottom: 20px;
+}
 header {
   display: flex;
   align-items: center;
   justify-content: space-around;
   background-color: $header-bg-color;
   border-bottom: 2px solid $header-accent-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
   a {
     color: $header-accent-color;
