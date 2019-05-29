@@ -1,0 +1,11 @@
+.btn {
+  background: linear-gradient(#ddd, #aaa);
+  color: #333;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px 30px;
+
+  &:hover {
+    box-shadow: 0 0 10px inset;
+  }
+}
