@@ -36,7 +36,7 @@ export class PkmnListItemComponent implements OnInit {
 
   getPokemonName() {
     if(this.speciesData) {
-      return this.speciesData.names.filter(name => name.language.name === 'en')[0].name;
+      return this.speciesData.names.find(name => name.language.name === 'en').name;
     } else if(this.pokemonData) {
       return this.pokemonData.name;
     }
