@@ -1,8 +1,10 @@
 <div *ngIf="pokemonLoaded" class="pokemon" routerLink="/pkmn/{{pokemonData.name}}">
   <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonData.name}}.png">
   <p>{{ getPokemonName() }}</p>
-  <p>{{ pokemonData.types[0].type.name }}</p>
-  <p *ngIf="pokemonData.types[1]">{{pokemonData.types[1].type.name}}</p>
+  <div class="type-container">
+    <span class="type type-{{getPokemonType(1)}}"></span>
+    <span *ngIf="getPokemonType(2)" class="type type-{{getPokemonType(2)}}"></span>
+  </div>
 </div>
 <div *ngIf="!pokemonLoaded" class="loader-container">
   <app-pokeball-loader></app-pokeball-loader>

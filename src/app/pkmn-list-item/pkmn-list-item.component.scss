@@ -6,4 +6,29 @@
 }
 
 .pokemon {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.type-container {
+  display: flex;
+  justify-content: center;
+}
+
+.type {
+  width: 48px;
+  height: 21px;
+  background-repeat: no-repeat;
+  background-size: 48px 21px;
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @each $type in $pokemon-types {
+    &.type-#{$type} {
+      background-image: url('/assets/type-badge/#{$type}.png');
+    }
+  }
 }

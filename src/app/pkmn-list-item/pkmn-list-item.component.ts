@@ -34,13 +34,18 @@ export class PkmnListItemComponent implements OnInit {
     });
   }
 
-  getPokemonName() {
+  getPokemonName(): string {
     if(this.speciesData) {
       return this.speciesData.names.find(name => name.language.name === 'en').name;
     } else if(this.pokemonData) {
       return this.pokemonData.name;
     }
     return 'NAME NOT FOUND';
+  }
+
+  getPokemonType(slot: number): string {
+    let typeEntry = this.pokemonData.types.find(type => type.slot === slot);
+    return typeEntry ? typeEntry.type.name : '';
   }
 
 }
