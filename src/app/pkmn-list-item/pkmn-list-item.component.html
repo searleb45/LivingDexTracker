@@ -1,4 +1,4 @@
-<div *ngIf="pokemonLoaded" class="pokemon" routerLink="/pkmn/{{pokemonData.name}}">
+<div *ngIf="pokemonLoaded && pokemonData.is_default" class="pokemon" routerLink="/pkmn/{{pokemonData.name}}">
   <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonData.name}}.png">
   <p>{{ getPokemonName() }}</p>
   <div class="type-container">

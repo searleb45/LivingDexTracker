@@ -17,20 +17,10 @@ export class PkmnListItemComponent implements OnInit {
   constructor(private pokemonService: PkmnService) { }
 
   ngOnInit() {
-    // Retrieve Pokemon entry for each new Pokemon to display
-    this.pokemonService.getPokemon(this.pokemonName).subscribe(fullResponse => {
-      this.pokemonData = fullResponse;
-
-      // Retrieve Pokemon Species entry for each new Pokemon to display.
-      // Use AssetByUrl to avoid trying to retrieve a species that doesn't exist (for multiple forms/megas/regionals/etc)
-      this.pokemonService.getApiAssetByUrl(fullResponse.species.url).subscribe(speciesResponse => {
-        this.speciesData = speciesResponse;
-
-        // TODO Remove debug log
-        if(this.pokemonName==='bulbasaur') console.log(this.pokemonData, this.speciesData);
-
-        this.pokemonLoaded = true;
-      })
+    this.pokemonService.getPokemonDetails(this.pokemonName).subscribe((res) => {
+      this.pokemonData = res.pokemonData;
+      this.speciesData = res.speciesData;
+      this.pokemonLoaded = true;
     });
   }
 
