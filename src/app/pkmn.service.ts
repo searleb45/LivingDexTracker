@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of, from } from 'rxjs';
 
 import { Pokedex } from 'pokeapi-js-wrapper';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +9,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 export class PkmnService {
 
   private pokeApi;
+  private dataCache = {};
   private pokemonPerPage: number = 32;
 
   constructor() {
@@ -17,22 +17,33 @@ export class PkmnService {
   }
 
   getPokemonPage(pageNum: number) : Observable<any> {
-    return from(this.pokeApi.getPokemonsList({
+    return from(this.pokeApi.getPokemonSpeciesList({
       limit: this.pokemonPerPage,
       offset: pageNum * this.pokemonPerPage
     }).then(res => res.results));
   }
 
   getPokemonDetails(name: string) : Observable<any> {
+    // Return cached data instead of making a service call
+    if(this.dataCache[name]) {
+      return of(this.dataCache[name]);
+    }
+
     return from(
-      this.pokeApi.getPokemonByName(name).then(async (pokemon) => {
+      // Retrieve species information
+      this.pokeApi.getPokemonSpeciesByName(name).then(async (species) => {
         let retVal: any = {
           name: name,
-          pokemonData: pokemon,
-          speciesData: null
+          pokemonData: null,
+          speciesData: species
         };
 
-        retVal.speciesData = await this.pokeApi.resource(pokemon.species.url);
+        // Retrieve Pokemon information
+        // Filter by is_default to avoid pulling multiple forms (Deoxys-A vs Deoxys-N)
+        retVal.pokemonData = await this.pokeApi.resource(species.varieties.find(variety => variety.is_default).pokemon.url);
+
+        // Cache result for future calls
+        this.dataCache[name] = retVal;
 
         return retVal;
       })
